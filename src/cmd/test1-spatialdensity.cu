@@ -8,10 +8,6 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 
-#include <oman/general/omandirs.h>
-#include <oman/general/iterationfunction.h>
-#include <oman/visualizer/plot.h>
-
 //#include <sinr/gui.h>
 //#include <sinr/types.h>
 #include <sinr/arena.h>
@@ -29,8 +25,6 @@ typedef thrust::tuple<Real,Real> Point2d;
  * should be at or very close to 1.
  */
 int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
-
-  Util::deleteDirContents(OmanDirs::images());
 
   /* common parameters */
   Real xmin = 10.0;
@@ -63,7 +57,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   prob = arena.getVolume()/Real(coords.size())*thrust::reduce(density.begin(),density.end(),0.0);
   cout<<"Uniform Density Integral: "<<prob<<endl;
 
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/uniformdensity.bmp");
+  sinr::visualize::outputBMP(rgba, w, h, "./uniformdensity.bmp");
 
 
 
@@ -79,7 +73,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   prob = arena.getVolume()/Real(coords.size())*thrust::reduce(density.begin(),density.end(),0.0);
   cout<<"Centered Density Integral: "<<prob<<endl;
   
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/centereddensity.bmp");
+  sinr::visualize::outputBMP(rgba, w, h, "./centereddensity.bmp");
 
   return 0;
 }

@@ -6,9 +6,6 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 
-#include <oman/general/omandirs.h>
-#include <oman/visualizer/plot.h>
-
 #include <sinr/arena.h>
 #include <sinr/network.h>
 #include <sinr/networkmetrics.cuh>
@@ -24,8 +21,6 @@ typedef thrust::tuple<Real,Real> Point2d;
 /** This test program plots association zones with and without biasing weights.
  */
 int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
-
-  Util::deleteDirContents(OmanDirs::images());
 
   /* common parameters */
   Real xmin = 1000.0;
@@ -58,7 +53,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   thrust::device_vector<uchar4> rgba(w*h);
   const thrust::device_vector<Real> *max_sinr = nm.computeMapMaxSINR();
   sinr::visualize::grayscaledB(*max_sinr, rgba, pow(10.0,(betadB-widthdB)/10.0), pow(10.0,betadB/10.0)); 
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/maxsinr_cells.bmp"); 
+  sinr::visualize::outputBMP(rgba, w, h, "./maxsinr_cells.bmp"); 
  
   const thrust::device_vector<nid_t> *zone;
   thrust::host_vector<Real> prob;
@@ -69,7 +64,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   nm.setAssocZoneRule(AZR_SINR);
   zone = nm.computeMapAssocZone();
   sinr::visualize::assoczone(*zone, rgba, N);
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/unbiasedsinr_zones.bmp"); 
+  sinr::visualize::outputBMP(rgba, w, h, "./unbiasedsinr_zones.bmp"); 
 
   prob = nm.computeAssocZoneProb(DensityUniform2d<Real>(arena));
   sumprob = thrust::reduce(prob.begin(),prob.end());
@@ -80,7 +75,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   nm.setAssocZoneRule(AZR_POWER);
   zone = nm.computeMapAssocZone();
   sinr::visualize::assoczone(*zone, rgba, N);
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/unbiasedpower_zones.bmp"); 
+  sinr::visualize::outputBMP(rgba, w, h, "./unbiasedpower_zones.bmp"); 
 
   prob = nm.computeAssocZoneProb(DensityUniform2d<Real>(arena));
   sumprob = thrust::reduce(prob.begin(),prob.end());
@@ -92,7 +87,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   nm.setAssocZoneRule(AZR_SINR_BIASED);
   zone = nm.computeMapAssocZone();
   sinr::visualize::assoczone(*zone, rgba, N);
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/biasedsinr_zones.bmp"); 
+  sinr::visualize::outputBMP(rgba, w, h, "./biasedsinr_zones.bmp"); 
 
   prob = nm.computeAssocZoneProb(DensityUniform2d<Real>(arena));
   sumprob = thrust::reduce(prob.begin(),prob.end());
@@ -104,7 +99,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   nm.setAssocZoneRule(AZR_POWER_BIASED);
   zone = nm.computeMapAssocZone();
   sinr::visualize::assoczone(*zone, rgba, N);
-  sinr::visualize::outputBMP(rgba, w, h, OmanDirs::images() + "/biasedpower_zones.bmp"); 
+  sinr::visualize::outputBMP(rgba, w, h, "./biasedpower_zones.bmp"); 
 
   prob = nm.computeAssocZoneProb(DensityUniform2d<Real>(arena));
   sumprob = thrust::reduce(prob.begin(),prob.end());

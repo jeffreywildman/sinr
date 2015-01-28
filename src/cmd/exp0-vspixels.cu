@@ -32,12 +32,6 @@ int main(int argc __attribute__((unused)), char **argv __attribute__((unused))) 
   cudaMemGetInfo(&free, &total);
   std::cout<<"free: "<<free<<"\t total: "<<total<<std::endl;
 
-  /* User-controlled setup for experiment */
-  Util::deleteDirContents(OmanDirs::temp());
-  Util::deleteDirContents(OmanDirs::images());
-  Util::deleteDirContents(OmanDirs::videos());
-  Util::deleteDirContents(OmanDirs::logs());
-
   Util::seedRandomGenerator(0);
 
   vector<double> nodeIter      = IterationFunction(10, 10, 1).getVector();        /* number of nodes to iterate over */

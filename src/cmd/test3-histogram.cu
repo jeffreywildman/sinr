@@ -1,8 +1,5 @@
 #include <thrust/host_vector.h>
 
-#include <oman/general/omandirs.h>
-#include <oman/visualizer/plot.h>
-
 #include <sinr/histogram.cuh>
 #include <sinr/util.h>
 
@@ -14,8 +11,6 @@ typedef thrust::tuple<Real,Real> Point2d;
 /** This test program creates random data and plots a histogram.
  */
 int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
-
-  Util::deleteDirContents(OmanDirs::images());
 
   /* common parameters */
   Real min1 = 10.0;
@@ -30,7 +25,6 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   thrust::host_vector<Real> binvals(numbins);
   std::vector<Real> bincenters_std(numbins);
   std::vector<Real> binvals_std(numbins);
-  Plot plot;
 
   /* create random data */
   for (unsigned int d = 0; d < 100; d++) {
@@ -52,11 +46,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   }
   cout<<endl<<endl;
 
-  plot.create(PT_BOXED, "Linear Histogram", "Xlabel", "Ylabel");
-  plot.addData(bincenters_std, binvals_std);
-  plot.save("linear_histogram");
-
-
+  
   /* logarithmic histogram */
   sinr::histogram::histogramdB(data,bincenters,binvals,numbins);
   thrust::copy(bincenters.begin(),bincenters.end(),bincenters_std.begin());
@@ -67,11 +57,6 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
     cout<<"BinCenter: "<<bincenters_std.at(bin)<<", BinValue: "<<binvals_std.at(bin)<<endl;
   }
   cout<<endl<<endl;
-
-  plot.create(PT_BOXED, "Logarithmic Histogram", "Xlabel", "Ylabel");
-  plot.addData(bincenters_std, binvals_std);
-  plot.constants.logscale_x = true;
-  plot.save("logarithmic_histogram");
 
   return 0;
 }

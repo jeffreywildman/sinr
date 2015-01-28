@@ -5,9 +5,6 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 
-#include <oman/general/omandirs.h>
-#include <oman/visualizer/plot.h>
-
 #include <sinr/radiationpattern.cuh>
 #include <sinr/util.h>
 
@@ -21,8 +18,6 @@ typedef double Real;
  */
 int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
   
-  Util::deleteDirContents(OmanDirs::images());
-
   /* TRP parameters */
   Real trp;
   Real theta_a = 0.0;
@@ -32,7 +27,6 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   thrust::counting_iterator<Real> cend(N);
  
   /* plotting variables */
-  Plot plot;
   thrust::host_vector<Real> rad(N);
   thrust::host_vector<Real> the(N);
   vector<Real> theta;
@@ -56,14 +50,6 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
                     RadPatternEllipse<Real>(ecc, norm));
   radius = vector<Real>(rad.begin(), rad.end());
   
-  plot.create(PT_POLAR, "Ellipse", "Xlabel", "Ylabel");
-  plot.constants.squareSize = true;
-  plot.constants.showXTics = false;
-  plot.constants.showYTics = false;
-  plot.addData(theta, radius);
-  plot.setXRange(-1.0*Util::max(radius), Util::max(radius));
-  plot.setYRange(-1.0*Util::max(radius), Util::max(radius));
-  plot.save("ellipse");
 
   /* integrate radiation pattern from [0,2*pi] and make sure area is near 1. */
   trp = totalRadiatedPower<Real>(RadPatternEllipse<Real>(ecc, norm));
@@ -81,15 +67,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
                     RadPatternRosePetal<Real>(width, power));
   radius = vector<Real>(rad.begin(), rad.end());
  
-  plot.create(PT_POLAR, "Rose Petal", "Xlabel", "Ylabel");
-  plot.constants.squareSize = true;
-  plot.constants.showXTics = false;
-  plot.constants.showYTics = false;
-  plot.addData(theta, radius);
-  plot.setXRange(-1.0*Util::max(radius), Util::max(radius));
-  plot.setYRange(-1.0*Util::max(radius), Util::max(radius));
-  plot.save("rosepetal");
-
+  
   /* integrate radiation pattern from [0,2*pi] and make sure area is near 1. */
   trp = totalRadiatedPower<Real>(RadPatternRosePetal<Real>(width, power));
   cout<<"Rose Petal Area: "<<trp<<endl;

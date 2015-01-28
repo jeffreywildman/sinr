@@ -1,18 +1,18 @@
 SUBDIRS = .
 
 bin_PROGRAMS = 	sinrvis-test \
-								exp0-vspixels \
-								exp1-vsnodes \
-								exp2-spatialcapacity \
-								exp3-placement \
 								test0-radiationpattern \
 								test1-spatialdensity \
 								test2-associationzones \
-								test3-histogram \
-								test4-optioniterator \
-								vis0-placement \
-								crowncom0-placement \
-								wifius0-modesvbands
+								vis0-placement
+#								test3-histogram \
+#								test4-optioniterator \
+#								exp0-vspixels \
+#								exp1-vsnodes \
+#								exp2-spatialcapacity \
+#								exp3-placement
+#								crowncom0-placement \
+#								wifius0-modesvbands
 
 # Stop-gap measure until we can get CUDA/Libtool/Automake to play nice with one another.
 # Can't get libtool to recognize *.cu targets in *_SOURCES variables.
@@ -154,7 +154,7 @@ nodist_EXTRA_wifius0_modesvbands_SOURCES = dummy.cxx
 # See: http://www.gnu.org/software/automake/manual/html_node/Automake-silent_002drules-Option.html
 nvcc_verbose		= $(nvcc_verbose_@AM_V@)
 nvcc_verbose_		= $(nvcc_verbose_@AM_DEFAULT_V@)
-nvcc_verbose_0	= @echo "  NVCC  " $@;
+nvcc_verbose_0	= @echo "  NVCC     $@";
 .cu.o:
 	$(nvcc_verbose)$(NVCC) $(NVCCFLAGS) -I$(top_srcdir)/src -c -o $@ $<
 

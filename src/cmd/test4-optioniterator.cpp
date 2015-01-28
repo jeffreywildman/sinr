@@ -2,8 +2,6 @@
 #include <vector>
 #include <algorithm>
 
-#include <oman/general/omandirs.h>
-
 #include <sinr/optioniterator.h>
 #include <sinr/util.h>
 
@@ -18,8 +16,6 @@ void print(unsigned int i) {
 /** This test program creates and tests a BaseBUInt object.
  */
 int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) {
-
-  Util::deleteDirContents(OmanDirs::images());
 
   unsigned int b = 3;
   unsigned int n = 3;

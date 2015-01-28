@@ -2,7 +2,7 @@ dnl Autoconf initialization and config macros
 dnl ***************************************************************************
 
 AC_PREREQ([2.69])
-AC_INIT([sinr],[0.0.1],[a@b.c],[],[http://oman.ece.drexel.edu/redmine/projects/sinr])
+AC_INIT([sinr],[0.0.1],[jeffrey.wildman@gmail.com],[],[])
 
 dnl Come up with a nice explanation for this when it is actually used
 dnl AC_CONFIG_HEADERS([config.h])
@@ -50,7 +50,7 @@ AC_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CXX_C_O
 AC_PROG_INSTALL
-NVCC="nvcc"
+NVCC="/usr/local/cuda/bin/nvcc"
 CFLAGS=$save_cflags
 
 dnl http://www.flameeyes.eu/autotools-mythbuster/autoconf/arguments.html
@@ -99,40 +99,39 @@ fi
 
 
 dnl Check the libraries that use pkg-config
+PKG_CFGS="cudart-6.5 gl glu glew gsl"
 PKG_PROG_PKG_CONFIG([])
-PKG_CHECK_MODULES([SINR_DEPS], [gl glu glew gsl QtCore])
+PKG_CHECK_MODULES([SINR_DEPS], [${PKG_CFGS}])
 
 dnl Check the libraries that don't use pkg-config
 dnl TODO: checks for glut 
-dnl TODO: checks for cudart
 AC_CHECK_HEADERS_ONCE([thrust/version.h])
 
 
-OMAN_INCL_DIR="/opt/oman-install-temp/include"
-
 dnl Add these flags to gcc and g++ 
-CPPFLAGS="-I${OMAN_INCL_DIR} \
-  `pkg-config --cflags-only-other gl glu glew gsl QtCore` \
-  `pkg-config --cflags-only-I gl glu glew gsl QtCore`"
+CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
+  `pkg-config --cflags-only-I ${PKG_CFGS}`"
 
 CFLAGS="${CFLAGS} -pipe -Wall -Wextra" dnl -Werror"
-CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -std=c++0x" dnl -Werror"
+CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -std=c++11" dnl -Werror"
 NVCCFLAGS="${NVCCFLAGS} -Xcompiler -Wall -Xcompiler -Wno-unused-but-set-variable \
-  -I${OMAN_INCL_DIR} \ 
-  `pkg-config --cflags QtCore gl glu glew gsl QtCore` \
+  `pkg-config --cflags ${PKG_CFGS}` \
   -arch=compute_20 -code=compute_20"
 
 dnl -Xcompiler -Wextra -Xcompiler -Werror"
 
-LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib -L/opt/oman-install-temp/lib \
-  `pkg-config --libs-only-other gl glu glew gsl QtCore`"
+LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
+  `pkg-config --libs-only-L ${PKG_CFGS}`"
 
-LIBS="${LIBS} -Wl,--as-needed -lglut -lcudart \
-  `pkg-config --libs-only-l gl glu glew gsl QtCore` \
-  -loman"
+# pthread not properly pulled in by cudart pc file?
+# Add rpath for libcudart-6.5 since NVIDIA apt packages don't use ldconfig
+LIBS="${LIBS} -Wl,--as-needed -pthread -lglut \
+  -Wl,-rpath `pkg-config --variable=libdir cudart-6.5` \
+  `pkg-config --libs-only-l ${PKG_CFGS}`"
 
 AC_SUBST(NVCC)
 AC_SUBST(NVCCFLAGS)
+AC_SUBST(PKG_CFGS)
 
 
 dnl Libtool related macros

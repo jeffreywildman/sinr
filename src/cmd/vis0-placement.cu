@@ -2,8 +2,6 @@
 #include <vector>
 #include <math.h>       /* for M_PI */
 
-#include <oman/general/omandirs.h>            /* non c++11 */
-
 #include <sinr/network.h>
 #include <sinr/coordinates.cuh>
 #include <sinr/networkmetrics.cuh>
@@ -69,12 +67,6 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   size_t free, total;
   cudaMemGetInfo(&free, &total);
   std::cout<<"free: "<<free<<"\t total: "<<total<<std::endl;
-
-  /* User-controlled setup for experiment */
-  Util::deleteDirContents(OmanDirs::temp());
-  Util::deleteDirContents(OmanDirs::images());
-  Util::deleteDirContents(OmanDirs::videos());
-  Util::deleteDirContents(OmanDirs::logs());
 
   Util::seedRandomGenerator(0);
 
