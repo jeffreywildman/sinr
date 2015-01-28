@@ -1,6 +1,8 @@
 #ifndef __ARENA_H__
 #define __ARENA_H__
 
+#include <cassert>
+
 /** The Arena2d class is a data structure to store information about the network arena.
  */
 template <typename T>
