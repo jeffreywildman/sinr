@@ -75,7 +75,7 @@ then
   NVCCFLAGS="-Xcompiler -g -Xcompiler -fno-inline ${NVCCFLAGS}"
 else
   CFLAGS="-s -DNDEBUG ${CFLAGS}"
-  CXXFLAGS="-s -DNDEBUG ${CFLAGS}"
+  CXXFLAGS="-s -DNDEBUG ${CXXFLAGS}"
   NVCCFLAGS="-Xcompiler -s -DNDEBUG ${NVCCFLAGS}"
 fi
 
@@ -86,8 +86,8 @@ then
   NVCCFLAGS="-O2 ${NVCCFLAGS}"
 else
   CFLAGS="-O0 ${CFLAGS}"
-  CXXFLAGS="-O0 ${CFLAGS}"
-  NVCCFLAGS="-O0 ${CFLAGS}"
+  CXXFLAGS="-O0 ${CXXFLAGS}"
+  NVCCFLAGS="-O0 ${NVCCFLAGS}"
 fi
 
 if test "x$enable_profile" == "xyes"
