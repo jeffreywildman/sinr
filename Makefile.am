@@ -7,17 +7,6 @@ doxygen-doc:
 
 .PHONY: doxygen-doc
 
-# Note: Automake 1.12.6 includes automatic support for CSCOPE
-# These rules will be unnecessary when automake is finally upgraded in Ubuntu
-cscope: cscopeclean cscope.files
-	cscope -b -q -i $(top_srcdir)/cscope.files -f $(top_srcdir)/cscope.out
-	
-cscopeclean:
-	rm -f $(top_srcdir)/cscope.files
-
-cscope.files:
-	find $(abs_top_srcdir)/src -name '*.cu' -o -name '*.cpp' -o -name '*.h' > $(top_srcdir)/cscope.files
-
 MAINTAINERCLEANFILES = aclocal.m4 \
 					   configure \
 					   COPYING \
