@@ -141,6 +141,7 @@ LT_INIT([disable-shared])
 
 AC_CONFIG_FILES([Makefile \
                  src/Makefile \
+                 src/sinr/Makefile \
                  doc/Makefile])
 AC_OUTPUT
 
