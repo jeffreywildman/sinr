@@ -1,10 +1,11 @@
 SUBDIRS = sinr .
 
-bin_PROGRAMS = 	sinrvis-test \
-								test0-radiationpattern \
-								test1-spatialdensity \
-								test2-associationzones \
-								vis0-placement
+bin_PROGRAMS = sinrmap-demo
+#								sinrvis-test \
+#								test0-radiationpattern \
+#								test1-spatialdensity \
+#								test2-associationzones \
+#								vis0-placement
 #								test3-histogram \
 #								test4-optioniterator \
 #								exp0-vspixels \
@@ -14,62 +15,68 @@ bin_PROGRAMS = 	sinrvis-test \
 #								crowncom0-placement \
 #								wifius0-modesvbands
 
-sinrvis_test_CPPFLAGS							= -I$(top_srcdir)/src
-sinrvis_test_LDFLAGS							=
-sinrvis_test_LDADD								= sinr/libsinr.la
-sinrvis_test_SOURCES							= cmd/sinrvis-test.cu
-# Help Automake choose the C++ linker.
-# See: http://www.gnu.org/software/automake/manual/html_node/How-the-Linker-is-Chosen.html#How-the-Linker-is-Chosen
-nodist_EXTRA_sinrvis_test_SOURCES = dummy.cpp
+sinrmap_demo_CPPFLAGS							= -I$(top_srcdir)/src
+sinrmap_demo_LDFLAGS							=
+sinrmap_demo_LDADD								= sinr/libsinr.la
+sinrmap_demo_SOURCES							= cmd/sinrmap-demo.cu
+nodist_EXTRA_sinrmap_demo_SOURCES = dummy.cpp
 
 
-# TESTS
-
-test0_radiationpattern_CPPFLAGS							= -I$(top_srcdir)/src
-test0_radiationpattern_LDFLAGS							= 
-test0_radiationpattern_LDADD								= sinr/libsinr.la
-test0_radiationpattern_SOURCES							= cmd/test0-radiationpattern.cu
-nodist_EXTRA_test0_radiationpattern_SOURCES = dummy.cpp
-
-
-test1_spatialdensity_CPPFLAGS							= -I$(top_srcdir)/src
-test1_spatialdensity_LDFLAGS							= 
-test1_spatialdensity_LDADD								= sinr/libsinr.la
-test1_spatialdensity_SOURCES							= cmd/test1-spatialdensity.cu
-nodist_EXTRA_test1_spatialdensity_SOURCES = dummy.cpp
-
-
-test2_associationzones_CPPFLAGS							= -I$(top_srcdir)/src
-test2_associationzones_LDFLAGS  						= 
-test2_associationzones_LDADD    						= sinr/libsinr.la
-test2_associationzones_SOURCES  						= cmd/test2-associationzones.cu
-nodist_EXTRA_test2_associationzones_SOURCES = dummy.cpp
-
-
-test3_histogram_CPPFLAGS							= -I$(top_srcdir)/src
-test3_histogram_LDFLAGS								= 
-test3_histogram_LDADD									= sinr/libsinr.la
-test3_histogram_SOURCES								= cmd/test3-histogram.cu
-nodist_EXTRA_test3_histogram_SOURCES	= dummy.cpp
-
-
-test4_optioniterator_CPPFLAGS							= -I$(top_srcdir)/src
-test4_optioniterator_LDFLAGS  						= 
-test4_optioniterator_LDADD    						= sinr/libsinr.la
-test4_optioniterator_SOURCES  						= cmd/test4-optioniterator.cpp
-nodist_EXTRA_test4_optioniterator_SOURCES = dummy.cpp
-
-
-# GUI-BASED
-
-vis0_placement_CPPFLAGS							= -I$(top_srcdir)/src
-vis0_placement_LDFLAGS  						= 
-vis0_placement_LDADD    						= sinr/libsinr.la
-vis0_placement_SOURCES  						= cmd/vis0-placement.cu
-nodist_EXTRA_vis0_placement_SOURCES = dummy.cpp
-
-
-
+#sinrvis_test_CPPFLAGS							= -I$(top_srcdir)/src
+#sinrvis_test_LDFLAGS							=
+#sinrvis_test_LDADD								= sinr/libsinr.la
+#sinrvis_test_SOURCES							= cmd/sinrvis-test.cu
+## Help Automake choose the C++ linker.
+## See: http://www.gnu.org/software/automake/manual/html_node/How-the-Linker-is-Chosen.html#How-the-Linker-is-Chosen
+#nodist_EXTRA_sinrvis_test_SOURCES = dummy.cpp
+#
+## TESTS
+#
+#test0_radiationpattern_CPPFLAGS							= -I$(top_srcdir)/src
+#test0_radiationpattern_LDFLAGS							= 
+#test0_radiationpattern_LDADD								= sinr/libsinr.la
+#test0_radiationpattern_SOURCES							= cmd/test0-radiationpattern.cu
+#nodist_EXTRA_test0_radiationpattern_SOURCES = dummy.cpp
+#
+#
+#test1_spatialdensity_CPPFLAGS							= -I$(top_srcdir)/src
+#test1_spatialdensity_LDFLAGS							= 
+#test1_spatialdensity_LDADD								= sinr/libsinr.la
+#test1_spatialdensity_SOURCES							= cmd/test1-spatialdensity.cu
+#nodist_EXTRA_test1_spatialdensity_SOURCES = dummy.cpp
+#
+#
+#test2_associationzones_CPPFLAGS							= -I$(top_srcdir)/src
+#test2_associationzones_LDFLAGS  						= 
+#test2_associationzones_LDADD    						= sinr/libsinr.la
+#test2_associationzones_SOURCES  						= cmd/test2-associationzones.cu
+#nodist_EXTRA_test2_associationzones_SOURCES = dummy.cpp
+#
+#
+#test3_histogram_CPPFLAGS							= -I$(top_srcdir)/src
+#test3_histogram_LDFLAGS								= 
+#test3_histogram_LDADD									= sinr/libsinr.la
+#test3_histogram_SOURCES								= cmd/test3-histogram.cu
+#nodist_EXTRA_test3_histogram_SOURCES	= dummy.cpp
+#
+#
+#test4_optioniterator_CPPFLAGS							= -I$(top_srcdir)/src
+#test4_optioniterator_LDFLAGS  						= 
+#test4_optioniterator_LDADD    						= sinr/libsinr.la
+#test4_optioniterator_SOURCES  						= cmd/test4-optioniterator.cpp
+#nodist_EXTRA_test4_optioniterator_SOURCES = dummy.cpp
+#
+#
+## GUI-BASED
+#
+#vis0_placement_CPPFLAGS							= -I$(top_srcdir)/src
+#vis0_placement_LDFLAGS  						= 
+#vis0_placement_LDADD    						= sinr/libsinr.la
+#vis0_placement_SOURCES  						= cmd/vis0-placement.cu
+#nodist_EXTRA_vis0_placement_SOURCES = dummy.cpp
+#
+#
+#
 ## EXPERIMENTS 
 #
 #exp0_vspixels_CPPFLAGS = -I$(top_srcdir)/src
@@ -130,7 +137,7 @@ nvcc_verbose		= $(nvcc_verbose_@AM_V@)
 nvcc_verbose_		= $(nvcc_verbose_@AM_DEFAULT_V@)
 nvcc_verbose_0	= @echo "  NVCC     $@";
 .cu.o:
-	$(nvcc_verbose)$(NVCC) $(NVCCFLAGS) $(sinrvis_test_CPPFLAGS) -c -o $@ $<
+	$(nvcc_verbose)$(NVCC) $(NVCCFLAGS) -I$(top_srcdir)/src -c -o $@ $<
 
 # Generate dummy.cpp so that "make tags" will work, cleaned by "make clean"
 dummy.cpp:
