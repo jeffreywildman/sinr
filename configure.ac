@@ -99,7 +99,7 @@ CFLAGS="${CFLAGS} -pipe -Wall -Wextra" dnl -Werror"
 CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -std=c++11" dnl -Werror"
 NVCCFLAGS="${NVCCFLAGS} -Xcompiler -Wall -Xcompiler -Wno-unused-but-set-variable \
   `pkg-config --cflags ${PKG_CFGS}` \
-  -arch=compute_20 -code=compute_20"
+  -arch=compute_30 -code=compute_30,sm_30"
 
 dnl -Xcompiler -Wextra -Xcompiler -Werror"
 
