@@ -1,4 +1,4 @@
-CUDALT=$(top_srcdir)/cudalt
+CUDALT=$(top_srcdir)/tools/cudalt
 
 lib_LTLIBRARIES				= libsinr.la
 
