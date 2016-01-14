@@ -8,6 +8,7 @@
 
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
+#include <thrust/extrema.h>
 
 #include <sinr/types.h>
 #include <sinr/coordinates.cuh>

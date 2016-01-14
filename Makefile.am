@@ -9,6 +9,7 @@ doxygen-doc:
 
 MAINTAINERCLEANFILES = aclocal.m4 \
 											 configure \
+											 config/ar-lib \
 											 config/compile \
 											 config/depcomp \
 											 config/missing \

@@ -13,41 +13,26 @@ AC_CONFIG_SRCDIR([src/sinr/network.h])
 dnl install-sh will be searched (and found) here
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_FILES([Makefile \
+                 src/Makefile \
+                 src/sinr/Makefile \
+                 doc/Makefile])
+
+# Silence warning: ar: 'u' modifier ignored since 'D' is the default
+AC_SUBST(AR_FLAGS, [cr])
 
 
-dnl Automake initialization and config macros
+dnl Configure compilers and flags
 dnl ***************************************************************************
-
-AM_INIT_AUTOMAKE([color-tests subdir-objects silent-rules no-exeext])
-
-AM_SILENT_RULES([yes])
-
-
-dnl Doxygen initialization and config macros
-dnl ***************************************************************************
-
-DX_DOXYGEN_FEATURE([ON])
-DX_PDF_FEATURE([OFF])
-DX_PS_FEATURE([OFF])
-dnl config and output directory locations are given relative to the doc directory
-dnl this is where the Makefile will call doxygen commands from
-DX_INIT_DOXYGEN([$PACKAGE_NAME],[./doxygen.cfg],[./doxygen])
-AS_IF([test "${DX_FLAG_doc}" = 1],[enable_doxygen=yes],[enable_doxygen=no]) 
-AC_CONFIG_FILES([doc/doxygen.cfg])
-
-
-dnl Other macros
-dnl ***************************************************************************
-
 
 dnl Prevent AC_PROG_C* from messin' wit us
 : ${CFLAGS=""}
 : ${CXXFLAGS=""}
 : ${NVCCFLAGS=""}
 save_cflags=$CFLAGS
-AC_PROG_CC
+AC_PROG_CC([gcc-4.9])
 AC_PROG_CC_C_O
-AC_PROG_CXX
+AC_PROG_CXX([g++-4.9])
 AC_PROG_CXX_C_O
 AC_PROG_INSTALL
 NVCC="/usr/local/cuda/bin/nvcc"
@@ -69,8 +54,8 @@ AC_ARG_ENABLE([profile],
 
 if test "x$enable_debug" == "xyes"
 then
-	CFLAGS="-ggdb3 -fno-inline ${CFLAGS}"
-	CXXFLAGS="-ggdb3 -fno-inline ${CXXFLAGS}"
+  CFLAGS="-ggdb3 -fno-inline ${CFLAGS}"
+  CXXFLAGS="-ggdb3 -fno-inline ${CXXFLAGS}"
   dnl thrust does not like debugging?
   NVCCFLAGS="-Xcompiler -g -Xcompiler -fno-inline ${NVCCFLAGS}"
 else
@@ -81,8 +66,8 @@ fi
 
 if test "x$enable_optimization" == "xyes"
 then
-	CFLAGS="-O2 ${CFLAGS}"
-	CXXFLAGS="-O2 ${CXXFLAGS}"
+  CFLAGS="-O2 ${CFLAGS}"
+  CXXFLAGS="-O2 ${CXXFLAGS}"
   NVCCFLAGS="-O2 ${NVCCFLAGS}"
 else
   CFLAGS="-O0 ${CFLAGS}"
@@ -92,23 +77,21 @@ fi
 
 if test "x$enable_profile" == "xyes"
 then
-	CFLAGS="-pg ${CFLAGS}"
-	CXXFLAGS="-pg ${CXXFLAGS}"
+  CFLAGS="-pg ${CFLAGS}"
+  CXXFLAGS="-pg ${CXXFLAGS}"
   NVCCFLAGS="-pg ${NVCCFLAGS}"
 fi
 
-
 dnl Check the libraries that use pkg-config
-PKG_CFGS="cudart-6.5 gl glu glew gsl"
+PKG_CFGS="cudart-7.5 gl glu glew gsl"
 PKG_PROG_PKG_CONFIG([])
 PKG_CHECK_MODULES([SINR_DEPS], [${PKG_CFGS}])
 
 dnl Check the libraries that don't use pkg-config
-dnl TODO: checks for glut 
+dnl TODO: checks for glut
 AC_CHECK_HEADERS_ONCE([thrust/version.h])
 
-
-dnl Add these flags to gcc and g++ 
+dnl Add these flags to gcc and g++
 CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
   `pkg-config --cflags-only-I ${PKG_CFGS}`"
 
@@ -124,9 +107,9 @@ LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
   `pkg-config --libs-only-L ${PKG_CFGS}`"
 
 # pthread not properly pulled in by cudart pc file?
-# Add rpath for libcudart-6.5 since NVIDIA apt packages don't use ldconfig
+# Add rpath for libcudart-7.5 since NVIDIA apt packages don't use ldconfig
 LIBS="${LIBS} -Wl,--as-needed -pthread -lglut \
-  -Wl,-rpath `pkg-config --variable=libdir cudart-6.5` \
+  -Wl,-rpath `pkg-config --variable=libdir cudart-7.5` \
   `pkg-config --libs-only-l ${PKG_CFGS}`"
 
 AC_SUBST(NVCC)
@@ -134,15 +117,37 @@ AC_SUBST(NVCCFLAGS)
 AC_SUBST(PKG_CFGS)
 
 
+dnl Doxygen initialization and config macros
+dnl ***************************************************************************
+
+DX_DOXYGEN_FEATURE([ON])
+DX_PDF_FEATURE([OFF])
+DX_PS_FEATURE([OFF])
+dnl config and output directory locations are given relative to the doc directory
+dnl this is where the Makefile will call doxygen commands from
+DX_INIT_DOXYGEN([$PACKAGE_NAME],[./doxygen.cfg],[./doxygen])
+AS_IF([test "${DX_FLAG_doc}" = 1],[enable_doxygen=yes],[enable_doxygen=no])
+AC_CONFIG_FILES([doc/doxygen.cfg])
+
+
+dnl Automake initialization and config macros
+dnl ***************************************************************************
+
+AM_INIT_AUTOMAKE([color-tests subdir-objects silent-rules no-exeext])
+
+AM_SILENT_RULES([yes])
+
+AM_PROG_AR
+
+
 dnl Libtool related macros
+dnl ***************************************************************************
+
 LT_PREREQ([2.4.2])
 dnl Turn off shared libraries during development to cut down on compilation time
-LT_INIT([disable-shared]) 
+LT_INIT([disable-shared])
 
-AC_CONFIG_FILES([Makefile \
-                 src/Makefile \
-                 src/sinr/Makefile \
-                 doc/Makefile])
+
 AC_OUTPUT
 
 echo \
