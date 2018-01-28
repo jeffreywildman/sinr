@@ -30,9 +30,9 @@ dnl Prevent AC_PROG_C* from messin' wit us
 : ${CXXFLAGS=""}
 : ${NVCCFLAGS=""}
 save_cflags=$CFLAGS
-AC_PROG_CC([gcc-4.9])
+AC_PROG_CC
 AC_PROG_CC_C_O
-AC_PROG_CXX([g++-4.9])
+AC_PROG_CXX
 AC_PROG_CXX_C_O
 AC_PROG_INSTALL
 NVCC="/usr/local/cuda/bin/nvcc"
@@ -83,7 +83,7 @@ then
 fi
 
 dnl Check the libraries that use pkg-config
-PKG_CFGS="cudart-7.5 gl glu glew gsl"
+PKG_CFGS="cudart-9.1 gl glu glew gsl"
 PKG_PROG_PKG_CONFIG([])
 PKG_CHECK_MODULES([SINR_DEPS], [${PKG_CFGS}])
 
@@ -109,7 +109,7 @@ LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
 # pthread not properly pulled in by cudart pc file?
 # Add rpath for libcudart-7.5 since NVIDIA apt packages don't use ldconfig
 LIBS="${LIBS} -Wl,--as-needed -pthread -lglut \
-  -Wl,-rpath `pkg-config --variable=libdir cudart-7.5` \
+  -Wl,-rpath `pkg-config --variable=libdir cudart-9.1` \
   `pkg-config --libs-only-l ${PKG_CFGS}`"
 
 AC_SUBST(NVCC)
