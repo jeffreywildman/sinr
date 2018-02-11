@@ -49,7 +49,7 @@ int main(int argc __attribute__((unused)), char** argv __attribute__((unused))) 
   //sinr::coordinates::generateGrid(positions, arena, wpos, hpos);
   unsigned int seed = 1;
   sinr::coordinates::generateRandom(positions, arena, N, seed);
-  for (unsigned int n = 0; n < net.getSize(); n++) {
+  for (unsigned int n = 0; n < (unsigned)net.getSize(); n++) {
     net.setPosition(n, positions[n]);
   }
 
