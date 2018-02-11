@@ -35,7 +35,7 @@ AC_PROG_CC_C_O
 AC_PROG_CXX
 AC_PROG_CXX_C_O
 AC_PROG_INSTALL
-NVCC="/usr/local/cuda/bin/nvcc"
+NVCC="nvcc"
 CFLAGS=$save_cflags
 
 dnl http://www.flameeyes.eu/autotools-mythbuster/autoconf/arguments.html
@@ -56,8 +56,7 @@ if test "x$enable_debug" == "xyes"
 then
   CFLAGS="-ggdb3 -fno-inline ${CFLAGS}"
   CXXFLAGS="-ggdb3 -fno-inline ${CXXFLAGS}"
-  dnl thrust does not like debugging?
-  NVCCFLAGS="-Xcompiler -g -Xcompiler -fno-inline ${NVCCFLAGS}"
+  NVCCFLAGS="-g -Xcompiler -fno-inline ${NVCCFLAGS}"
 else
   CFLAGS="-s -DNDEBUG ${CFLAGS}"
   CXXFLAGS="-s -DNDEBUG ${CXXFLAGS}"
@@ -95,21 +94,16 @@ dnl Add these flags to gcc and g++
 CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
   `pkg-config --cflags-only-I ${PKG_CFGS}`"
 
-CFLAGS="${CFLAGS} -pipe -Wall -Wextra" dnl -Werror"
-CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -std=c++11" dnl -Werror"
-NVCCFLAGS="${NVCCFLAGS} -Xcompiler -Wall -Xcompiler -Wno-unused-but-set-variable \
-  `pkg-config --cflags ${PKG_CFGS}` \
+CFLAGS="${CFLAGS} -pipe -Wall -Wextra -Werror"
+CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -Werror -std=c++11"
+NVCCFLAGS="${NVCCFLAGS} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++11 \
   -arch=compute_30 -code=compute_30,sm_30"
-
-dnl -Xcompiler -Wextra -Xcompiler -Werror"
 
 LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
   `pkg-config --libs-only-L ${PKG_CFGS}`"
 
 # pthread not properly pulled in by cudart pc file?
-# Add rpath for libcudart-7.5 since NVIDIA apt packages don't use ldconfig
 LIBS="${LIBS} -Wl,--as-needed -pthread -lglut \
-  -Wl,-rpath `pkg-config --variable=libdir cudart-9.1` \
   `pkg-config --libs-only-l ${PKG_CFGS}`"
 
 AC_SUBST(NVCC)
@@ -144,8 +138,7 @@ dnl Libtool related macros
 dnl ***************************************************************************
 
 LT_PREREQ([2.4.2])
-dnl Turn off shared libraries during development to cut down on compilation time
-LT_INIT([disable-shared])
+LT_INIT()
 
 
 AC_OUTPUT
@@ -158,12 +151,13 @@ ${PACKAGE_NAME} Version ${PACKAGE_VERSION}
 Prefix: '${prefix}'
 C Compiler: '${CC} ${CPPFLAGS} ${CFLAGS}'
 C++ Compiler: '${CXX} ${CPPFLAGS} ${CXXFLAGS}'
-NVCC Compiler: '${NVCC} ${NVCCFLAGS}'
+NVCC Compiler: '${NVCC} ${CPPFLAGS} ${NVCCFLAGS}'
 
 Package Features:
     Debugging Symbols:          ${enable_debug}
     Optimization Flags:         ${enable_optimization}
     Profiling Code:             ${enable_profile}
+    Static Libraries:           ${enable_static}
     Shared Libraries:           ${enable_shared}
     Doxygen Documentation:      ${enable_doxygen}
 
