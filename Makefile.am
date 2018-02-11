@@ -1,5 +1,6 @@
-ACLOCAL_AMFLAGS = -I m4
+include $(top_srcdir)/Makefile-common.am
 
+ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = doc src .
 
 doxygen-doc:

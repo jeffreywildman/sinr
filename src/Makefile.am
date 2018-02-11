@@ -1,3 +1,5 @@
+include $(top_srcdir)/Makefile-common.am
+
 SUBDIRS = sinr .
 
 bin_PROGRAMS = sinrmap-demo
@@ -130,14 +132,6 @@ nodist_EXTRA_sinrmap_demo_SOURCES = dummy.cpp
 #															cmd/wifius0-modesvbands.cu
 #nodist_EXTRA_wifius0_modesvbands_SOURCES = dummy.cpp
 
-
-# Enable silent rules for nvcc
-# See: http://www.gnu.org/software/automake/manual/html_node/Automake-silent_002drules-Option.html
-nvcc_verbose		= $(nvcc_verbose_@AM_V@)
-nvcc_verbose_		= $(nvcc_verbose_@AM_DEFAULT_V@)
-nvcc_verbose_0	= @echo "  NVCC     $@";
-.cu.o:
-	$(nvcc_verbose)$(NVCC) $(NVCCFLAGS) -I$(top_srcdir)/src -c -o $@ $<
 
 # Generate dummy.cpp so that "make tags" will work, cleaned by "make clean"
 dummy.cpp:

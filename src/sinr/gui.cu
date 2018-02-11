@@ -1,4 +1,4 @@
-#include <sinr/gui.h>
+#include "gui.h"
 
 #include <cassert>
 #include <iostream>

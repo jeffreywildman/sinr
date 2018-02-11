@@ -1,4 +1,4 @@
-CUDALT=$(top_srcdir)/tools/cudalt
+include $(top_srcdir)/Makefile-common.am
 
 lib_LTLIBRARIES				= libsinr.la
 
@@ -23,13 +23,5 @@ nobase_libsinr_la_include_HEADERS = arena.h \
 																		bitmap.h \
 																		optioniterator.h \
 																		util.h
-
-# Enable silent rules for nvcc
-# See: http://www.gnu.org/software/automake/manual/html_node/Automake-silent_002drules-Option.html
-nvcc_verbose		= $(nvcc_verbose_@AM_V@)
-nvcc_verbose_		= $(nvcc_verbose_@AM_DEFAULT_V@)
-nvcc_verbose_0	= @echo "  NVCC     $@";
-.cu.lo:
-	$(nvcc_verbose)$(CUDALT) $@ $(NVCC) $(NVCCFLAGS) $(libsinr_la_CPPFLAGS) -c $<
 
 MAINTAINERCLEANFILES = Makefile.in
