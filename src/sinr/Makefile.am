@@ -3,7 +3,7 @@ include $(top_srcdir)/Makefile-common.am
 lib_LTLIBRARIES				= libsinr.la
 
 libsinr_la_CPPFLAGS		= -I$(top_srcdir)/src
-libsinr_la_LDFLAGS		=
+libsinr_la_LDFLAGS		= -version-number $(LT_VERSION)
 libsinr_la_LIBADD			=
 libsinr_la_includedir	= $(includedir)/sinr
 

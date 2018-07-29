@@ -2,7 +2,8 @@ dnl Autoconf initialization and config macros
 dnl ***************************************************************************
 
 AC_PREREQ([2.69])
-AC_INIT([sinr],[0.0.1],[jeffrey.wildman@gmail.com],[],[])
+AC_INIT([sinr],[0.1.0],[jeffrey.wildman@gmail.com],[],[])
+AC_SUBST([LT_VERSION],[0:1:0])
 
 dnl Come up with a nice explanation for this when it is actually used
 dnl AC_CONFIG_HEADERS([config.h])
