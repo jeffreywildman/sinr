@@ -6,6 +6,9 @@ SUBDIRS = doc src .
 doxygen-doc:
 	(cd doc && $(MAKE) $(AM_MAKEFLAGS) $@) || exit 1
 
+# Avoid autogen.sh warning about missing README
+README: README.md
+
 .PHONY: doxygen-doc
 
 MAINTAINERCLEANFILES = aclocal.m4 \

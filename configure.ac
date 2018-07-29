@@ -82,7 +82,7 @@ then
 fi
 
 dnl Check the libraries that use pkg-config
-PKG_CFGS="cudart-9.1 gl glu glew gsl"
+PKG_CFGS="cudart-9.2 gl glu glew gsl"
 PKG_PROG_PKG_CONFIG([])
 PKG_CHECK_MODULES([SINR_DEPS], [${PKG_CFGS}])
 
@@ -96,7 +96,7 @@ CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
 
 CFLAGS="${CFLAGS} -pipe -Wall -Wextra -Werror"
 CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -Werror -std=c++11"
-NVCCFLAGS="${NVCCFLAGS} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++11 \
+NVCCFLAGS="${NVCCFLAGS} -ccbin ${CXX} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++11 \
   -arch=compute_30 -code=compute_30,sm_30"
 
 LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \

@@ -138,4 +138,9 @@ dummy.cpp:
 	echo 'static void dummy();' > $@
 
 CLEANFILES = dummy.cpp
+
+# Explicit removal of cmd/.deps, which for some reason is not removed by make distclean
+distclean-local:
+	-rm -rf ./cmd/.deps
+
 MAINTAINERCLEANFILES = Makefile.in
