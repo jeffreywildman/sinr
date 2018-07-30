@@ -32,10 +32,9 @@ unsigned int Gui::ticks;
 unsigned int (*Gui::render)(unsigned int, unsigned int, unsigned int, uchar4 *) = NULL;
 
 
-Gui::Gui(int _win_w, int _win_h, int _dev = 0) {
+Gui::Gui(int _win_w, int _win_h) {
   win_w = _win_w;
   win_h = _win_h;
-  dev = _dev;
 }
 
 
@@ -53,12 +52,6 @@ void Gui::openWindow() {
   glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
   glutCreateWindow("OpenGL Window");
   glewInit();
-
-  /** @todo Set the CUDA device for OpenGL interoperability.  
-   * This must be called appropriately (must be done after OpenGL context is established 
-   * 
-   * HANDLE_ERROR(cudaGLSetGLDevice(dev));
-   */
 }
 
 

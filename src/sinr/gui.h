@@ -21,13 +21,10 @@ public:
 
   /** Initialize a GUI object.  
    *
-   * @todo Determine if the device id is something the caller should have control over.
-   *
    * @param w   Width of the GUI window (pixels).
    * @param h   Height of the GUI window (pixels).
-   * @param dev Device ID of the desired CUDA Device to use.
    */
-  Gui(int w, int h, int dev);
+  Gui(int w, int h);
   ~Gui();
 
   /** Display a buffer within the GUI window.
@@ -63,7 +60,6 @@ private:
   static unsigned int bmp_w;
   static unsigned int bmp_h;
   static unsigned int ticks;
-  int dev;
   static GLuint bufferObj;
   static cudaGraphicsResource *resource;
   static unsigned int (*render)(unsigned int, unsigned int, unsigned int, uchar4 *);
