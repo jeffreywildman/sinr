@@ -96,8 +96,8 @@ CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
   `pkg-config --cflags-only-I ${PKG_CFGS}`"
 
 CFLAGS="${CFLAGS} -pipe -Wall -Wextra -Werror"
-CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -Werror -std=c++11"
-NVCCFLAGS="${NVCCFLAGS} -ccbin ${CXX} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++11 \
+CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -Werror -std=c++14"
+NVCCFLAGS="${NVCCFLAGS} -ccbin ${CXX} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++14 \
   -arch=compute_30 -code=compute_30,sm_30"
 
 LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
