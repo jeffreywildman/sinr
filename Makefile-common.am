@@ -3,24 +3,24 @@ NVCCCOMPILE = $(NVCC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 
 # Enable silent rules for nvcc
 # See: http://www.gnu.org/software/automake/manual/html_node/Automake-silent_002drules-Option.html
-nvcc_verbose		= $(nvcc_verbose_@AM_V@)
-nvcc_verbose_		= $(nvcc_verbose_@AM_DEFAULT_V@)
-nvcc_verbose_0	= @echo "  NVCC     $@";
+AM_V_NVCC   = $(AM_V_NVCC_@AM_V@)
+AM_V_NVCC_  = $(AM_V_NVCC_@AM_DEFAULT_V@)
+AM_V_NVCC_0 = @echo "  NVCC     $@";
 
 # *.cu rules originally adapted from ClusterChimps
 # See: http://clusterchimps.org/autotools.php
 .cu.o:
-	$(nvcc_verbose)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
-	$(SHELL) -c "$(NVCCCOMPILE) -Xcompiler '-MT $@',-MD,-MP,'-MF $$depbase.Tpo' -c -o $@ $<" &&\
+	$(AM_V_NVCC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+	$(NVCCCOMPILE) --compiler-options "-MT $@",-MD,-MP,"-MF $$depbase.Tpo" -c -o $@ $< &&\
 	$(am__mv) $$depbase.Tpo $$depbase.Po
 
 .cu.lo:
-	$(nvcc_verbose)depbase=`echo $(basename $@).o | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
-	$(SHELL) -c "$(NVCCCOMPILE) -Xcompiler '-MT $(basename $@).o',-MD,-MP,'-MF $$depbase.Tpo' -c -o $(basename $@).o $<" &&\
+	$(AM_V_NVCC)depbase=`echo $(basename $@).o | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
+	$(NVCCCOMPILE) --compiler-options "-MT $(basename $@).o",-MD,-MP,"-MF $$depbase.Tpo" -c -o $(basename $@).o $< &&\
 	$(am__mv) $$depbase.Tpo $$depbase.Po;\
 	depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
 	mkdir -p .libs;\
-	$(SHELL) -c "$(NVCCCOMPILE) -Xcompiler -fPIC -Xcompiler -DPIC -Xcompiler '-MT $@' -Xcompiler -MD -Xcompiler -MP -Xcompiler '-MF $$depbase.Tpo' -c -o .libs/$(basename $@).o $<" &&\
+	$(NVCCCOMPILE) --compiler-options -fPIC,-DPIC,"-MT $@",-MD,-MP,"-MF $$depbase.Tpo" -c -o .libs/$(basename $@).o $< &&\
 	$(am__mv) $$depbase.Tpo $$depbase.Plo;\
 	version=`$(LIBTOOL) --version | head -n1`;\
 	echo "# $@ - a libtool object file" > $@;\
@@ -34,3 +34,26 @@ nvcc_verbose_0	= @echo "  NVCC     $@";
 	echo "#" >> $@;\
 	echo "# Name of the non-PIC object." >> $@;\
 	echo "non_pic_object=$(basename $@).o" >> $@
+
+
+# Instead of mimicking libtool steps above, could alternately modify libtool script with:
+# # ### BEGIN LIBTOOL TAG CONFIG: NVCC
+# # Additional compiler flags for building library objects.
+# pic_flag=" --compiler-options -fPIC,-DPIC"
+# # ### END LIBTOOL TAG CONFIG: NVCC
+#
+# # Uncomment:
+#LTNVCCCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=NVCC $(AM_LIBTOOLFLAGS) \
+#	$(LIBTOOLFLAGS) --mode=compile $(NVCC) $(DEFS) \
+#	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
+#	$(AM_CXXFLAGS) $(NVCCFLAGS)
+#
+# # Uncomment and remove above rules for .cu.lo target
+#.cu.lo:
+#	$(AM_V_NVCC)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.lo$$||'`;\
+#	$(LTNVCCCOMPILE) --compiler-options "-MT $@",-MD,-MP,"-MF $$depbase.Tpo" -c -o $@ $< &&\
+#	$(am__mv) $$depbase.Tpo $$depbase.Plo
+#
+# Finally, libtool may be configured to use nvcc directly,
+# but doesn't appear able to apply gcc/nvcc to cpp/cu files, respectively.
+# See thread: https://lists.gnu.org/archive/html/libtool/2010-12/msg00018.html

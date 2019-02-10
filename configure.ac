@@ -57,11 +57,11 @@ if test "x$enable_debug" == "xyes"
 then
   CFLAGS="-ggdb3 -fno-inline ${CFLAGS}"
   CXXFLAGS="-ggdb3 -fno-inline ${CXXFLAGS}"
-  NVCCFLAGS="-g -Xcompiler -fno-inline ${NVCCFLAGS}"
+  NVCCFLAGS="-g --compiler-options -fno-inline ${NVCCFLAGS}"
 else
   CFLAGS="-s -DNDEBUG ${CFLAGS}"
   CXXFLAGS="-s -DNDEBUG ${CXXFLAGS}"
-  NVCCFLAGS="-Xcompiler -s -DNDEBUG ${NVCCFLAGS}"
+  NVCCFLAGS="--compiler-options -s -DNDEBUG ${NVCCFLAGS}"
 fi
 
 if test "x$enable_optimization" == "xyes"
@@ -97,7 +97,7 @@ CPPFLAGS="`pkg-config --cflags-only-other ${PKG_CFGS}` \
 
 CFLAGS="${CFLAGS} -pipe -Wall -Wextra -Werror"
 CXXFLAGS="${CXXFLAGS} -pipe -Wall -Wextra -Werror -std=c++14"
-NVCCFLAGS="${NVCCFLAGS} -ccbin ${CXX} -Xcompiler -pipe,-Wall,-Wextra,-Werror -std=c++14 \
+NVCCFLAGS="${NVCCFLAGS} -ccbin ${CXX} --compiler-options -pipe,-Wall,-Wextra,-Werror -std=c++14 \
   -arch=compute_30 -code=compute_30,sm_30"
 
 LDFLAGS="${LDFLAGS} -L/usr/lib -L/usr/local/lib \
