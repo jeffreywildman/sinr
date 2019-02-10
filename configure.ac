@@ -83,7 +83,7 @@ then
 fi
 
 dnl Check the libraries that use pkg-config
-PKG_CFGS="cudart-9.2 gl glu glew gsl"
+PKG_CFGS="cudart-10.0 gl glu glew gsl"
 PKG_PROG_PKG_CONFIG([])
 PKG_CHECK_MODULES([SINR_DEPS], [${PKG_CFGS}])
 

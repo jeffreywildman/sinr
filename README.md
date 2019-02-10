@@ -7,25 +7,17 @@ A software library and example applications for generating wireless signal stren
 Dependencies
 ------------
 
-Tested on [Ubuntu 18.04.1 64-bit Desktop](https://www.ubuntu.com) using [NVIDIA CUDA Toolkit 9.2](https://developer.nvidia.com/cuda-zone) with a [GeForce GTX 660 Ti](https://www.geforce.com/hardware/desktop-gpus/geforce-gtx-660ti) graphics card.
+Tested on [Ubuntu 18.04.2 64-bit Desktop](https://www.ubuntu.com) using [NVIDIA CUDA Toolkit 10.0](https://developer.nvidia.com/cuda-zone) with a [GeForce GTX 660 Ti](https://www.geforce.com/hardware/desktop-gpus/geforce-gtx-660ti) graphics card.
 
-A rough set of commands follow, but
-[this](https://www.pugetsystems.com/labs/hpc/How-to-install-CUDA-9-2-on-Ubuntu-18-04-1184/) was pretty helpful in getting things set up.
-
-* Install 396-series drivers:
-
-```bash
-sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt install nvidia-drivers-396
-```
-
-* Install CUDA Toolkit 9.2:
+A rough set of commands follow from [here](https://developer.nvidia.com/cuda-downloads?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=1804&target_type=debnetwork):
 
 ```bash
 sudo apt install freeglut3 freeglut3-dev libxi-dev libxmu-dev
-wget https://developer.nvidia.com/compute/cuda/9.2/Prod2/local_installers/cuda_9.2.148_396.37_linux -O cuda_9.2.148_396.37_linux.run
-chmod 755 ./cuda_9.2.148_396.37_linux.run
-./cuda_9.2.148_396.37_linux.run
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+sudo apt update
+sudo apt install nvidia-drivers-410
+sudo apt install cuda
 ```
 
 * Set environment variables:
