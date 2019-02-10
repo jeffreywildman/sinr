@@ -1,8 +1,9 @@
 sinr
 ====
 
-A software library and example applications for generating wireless signal strength maps using GPU acceleration.
+A software library for generating wireless signal strength maps using GPU acceleration.
 
+<img src='doc/sinrmap-demo-maxsinr.bmp' width=400>
 
 Dependencies
 ------------
@@ -45,8 +46,8 @@ make
 ```
 
 
-Run
----
+Run Example
+-----------
 
 ```bash
 LD_LIBRARY_PATH=/usr/local/cuda/lib64 ./src/sinrmap-demo
