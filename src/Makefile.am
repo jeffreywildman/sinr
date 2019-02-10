@@ -2,7 +2,9 @@ include $(top_srcdir)/Makefile-common.am
 
 SUBDIRS = sinr .
 
-bin_PROGRAMS = sinrmap-demo
+bin_PROGRAMS =	ex0-network \
+								ex1-pattern \
+								sinrmap-demo
 #								sinrvis-test \
 #								test0-radiationpattern \
 #								test1-spatialdensity \
@@ -16,6 +18,21 @@ bin_PROGRAMS = sinrmap-demo
 #								exp3-placement
 #								crowncom0-placement \
 #								wifius0-modesvbands
+
+ex0_network_CPPFLAGS							= -I$(top_srcdir)/src
+ex0_network_LDFLAGS							=
+ex0_network_LDADD								= sinr/libsinr.la
+ex0_network_SOURCES							= cmd/ex0-network.cu
+# Help Automake choose the C++ linker.
+# See: http://www.gnu.org/software/automake/manual/html_node/How-the-Linker-is-Chosen.html#How-the-Linker-is-Chosen
+nodist_EXTRA_ex0_network_SOURCES = dummy.cpp
+
+ex1_pattern_CPPFLAGS							= -I$(top_srcdir)/src
+ex1_pattern_LDFLAGS							=
+ex1_pattern_LDADD								= sinr/libsinr.la
+ex1_pattern_SOURCES							= cmd/ex1-pattern.cu
+nodist_EXTRA_ex1_pattern_SOURCES = dummy.cpp
+
 
 sinrmap_demo_CPPFLAGS							= -I$(top_srcdir)/src
 sinrmap_demo_LDFLAGS							=
